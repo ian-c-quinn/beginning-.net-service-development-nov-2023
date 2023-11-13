@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34221.43
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessClockApi", "BusinessClockApi\BusinessClockApi.csproj", "{FCEA5A44-BD11-48F1-83C8-1C66666F3DF4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessClockApi", "BusinessClockApi\BusinessClockApi.csproj", "{FCEA5A44-BD11-48F1-83C8-1C66666F3DF4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessClockApi.ContractTests", "BusinessClockApi.ContractTests\BusinessClockApi.ContractTests.csproj", "{2BFBA9B9-F4EC-44C7-93E9-6F2CD69B0F6A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessClockApi.UnitTests", "BusinessClockApi.UnitTests\BusinessClockApi.UnitTests.csproj", "{0EC2A2A8-E3B8-4E67-BC97-7C23409EA915}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{FCEA5A44-BD11-48F1-83C8-1C66666F3DF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FCEA5A44-BD11-48F1-83C8-1C66666F3DF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FCEA5A44-BD11-48F1-83C8-1C66666F3DF4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2BFBA9B9-F4EC-44C7-93E9-6F2CD69B0F6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BFBA9B9-F4EC-44C7-93E9-6F2CD69B0F6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BFBA9B9-F4EC-44C7-93E9-6F2CD69B0F6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BFBA9B9-F4EC-44C7-93E9-6F2CD69B0F6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0EC2A2A8-E3B8-4E67-BC97-7C23409EA915}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EC2A2A8-E3B8-4E67-BC97-7C23409EA915}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EC2A2A8-E3B8-4E67-BC97-7C23409EA915}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EC2A2A8-E3B8-4E67-BC97-7C23409EA915}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
