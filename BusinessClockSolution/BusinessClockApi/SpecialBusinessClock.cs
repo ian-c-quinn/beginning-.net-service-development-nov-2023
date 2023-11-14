@@ -1,10 +1,10 @@
 ﻿namespace BusinessClockApi;
 
-public class StandardBusinessClock : IProvideTheBusinessClock
+public class SpecialBusinessClock : IProvideTheBusinessClock
 {
-    private ISystemTime _clock;
+    private readonly ISystemTime _clock;
 
-    public StandardBusinessClock(ISystemTime clock)
+    public SpecialBusinessClock(ISystemTime clock)
     {
         _clock = clock;
     }
@@ -29,14 +29,3 @@ public class StandardBusinessClock : IProvideTheBusinessClock
         return isOpen;
     }
 }
-
-public interface ISystemTime
-{
-    DateTime GetCurrent();
-}
-
-public class SystemTime : ISystemTime
-{
-    public DateTime GetCurrent() => DateTime.Now;
-}
-
