@@ -1,41 +1,52 @@
+﻿
+using NSubstitute;
+
 namespace BusinessClockApi.UnitTests;
-
-public class StandardBusinessClock
+public class BusinessClockTests
 {
-    private ISystemTime _clock;
-
-    public StandardBusinessClock(ISystemTime clock)
+    [Fact]
+    public void ClosedOnSaturday()
     {
-        _clock = clock;
+        var fakeClock = Substitute.For<ISystemTime>();
+        fakeClock.GetCurrent().Returns(new DateTime(2023, 11, 18, 9, 15, 00));
+        var clock = new StandardBusinessClock(fakeClock);
+
+        bool status = clock.IsOpen(); // System Under Test.
+
+        Assert.False(status);
+    }
+    [Fact]
+    public void ClosedOnSunday()
+    {
+        var fakeClock = Substitute.For<ISystemTime>();
+        fakeClock.GetCurrent().Returns(new DateTime(2023, 11, 19, 9, 15, 00));
+        var clock = new StandardBusinessClock(fakeClock);
+
+        var status = clock.IsOpen();
+
+        Assert.False(status);
     }
 
-    public bool IsOpen()
+    [Theory]
+    [InlineData("11/13/2023 16:25:00")]
+    [InlineData("11/13/2023 9:00:00")]
+    public void WeAreOpen(string dateTime)
     {
-        var now = _clock.GetCurrent();
+        var fakeClock = Substitute.For<ISystemTime>();
+        fakeClock.GetCurrent().Returns(DateTime.Parse(dateTime));
+        var clock = new StandardBusinessClock(fakeClock);
 
-        var dayOfWeek = now.DayOfWeek;
-
-        var hour = now.Hour;
-        var openingTime = new TimeSpan(9, 0, 0);
-        var closingTime = new TimeSpan(17, 0, 0);
-
-        var isOpen = dayOfWeek switch
-        {
-            DayOfWeek.Sunday => false,
-            DayOfWeek.Saturday => false,
-            _ => hour >= openingTime.Hours && hour < closingTime.Hours,
-        };
-
-        return isOpen;
+        Assert.True(clock.IsOpen());
     }
-}
+    [Theory]
+    [InlineData("11/13/2023 8:59:59")]
+    [InlineData("11/13/2023 17:00:00")]
+    public void WeAreClosed(string dateTime)
+    {
+        var fakeClock = Substitute.For<ISystemTime>();
+        fakeClock.GetCurrent().Returns(DateTime.Parse(dateTime));
+        var clock = new StandardBusinessClock(fakeClock);
 
-public interface ISystemTime
-{
-    DateTime GetCurrent();
-}
-
-public class SystemTime : ISystemTime
-{
-    public DateTime GetCurrent() => DateTime.Now;
+        Assert.False(clock.IsOpen());
+    }
 }

@@ -1,4 +1,5 @@
-﻿using Alba;
+﻿
+using Alba;
 
 namespace BusinessClockApi.ContractTests;
 public class GettingOnCallDeveloper
