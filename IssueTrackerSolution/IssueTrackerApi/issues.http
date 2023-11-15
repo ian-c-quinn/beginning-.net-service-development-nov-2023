@@ -7,8 +7,10 @@ Authorization: bearer 38938983938
 
 {
 
-    "description": "Thing Done Broke"
+    "description": "Another one"
 
 }
 
+###
 
+GET http://localhost:1338/issues

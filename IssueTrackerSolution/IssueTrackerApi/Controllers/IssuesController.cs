@@ -1,5 +1,5 @@
 ﻿using IssueTrackerApi.Models;
-using Marten;
+using IssueTrackerApi.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IssueTrackerApi.Controllers;
@@ -7,11 +7,11 @@ namespace IssueTrackerApi.Controllers;
 [ApiController]
 public class IssuesController : ControllerBase
 {
-    private readonly IDocumentSession _session;
+    private readonly IssuesCatalog _catalog;
 
-    public IssuesController(IDocumentSession session)
+    public IssuesController(IssuesCatalog catalog)
     {
-        _session = session;
+        _catalog = catalog;
     }
 
     [HttpPost("/software/{softwareId}/issues/high-priority-issues")]
@@ -19,24 +19,36 @@ public class IssuesController : ControllerBase
     public async Task<ActionResult> AddIssueAsync([FromBody] IssueCreateModel request)
     {
 
-        // valid at this point!
-        // save it to a database,
-        // create some kind of response.
+        var user = "Joe";
+        IssueResponseModel response = await _catalog.FileIssueAsync(request, user, IssuePriority.HighPriority);
+        return Ok(response);
+    }
+    [HttpPost("/software/{softwareId}/issues/question")]
+    public async Task<ActionResult> AddQuestion([FromBody] IssueCreateModel request)
+    {
 
-        var response = new IssueResponseModel
-        {
-            Description = request.Description,
-            Filed = DateTimeOffset.Now,
-            User = "Joe", // identity
-            Id = Guid.NewGuid(),
-            Priority = IssuePriority.HighPriority
-        };
-
-        _session.Store(response);
-        await _session.SaveChangesAsync();
+        var user = "Joe";
+        IssueResponseModel response = await _catalog.FileIssueAsync(request, user, IssuePriority.Question);
         return Ok(response);
     }
 
+    [HttpGet("/{user}/issues")]
+    public async Task<ActionResult> GetIssuesFor(string user)
+    {
+        var issues = await _catalog.GetAllIssuesForUserAsync(user);
+        return Ok(new { issues });
+    }
+
+
+
+    [HttpGet("/issues/")]
+    public async Task<ActionResult> GetAllIssues([FromQuery] string user = "all")
+    {
+        var issues = await _catalog.GetAllIssuesAsync(user);
+        return Ok(new { issues });
+    }
+
+    // public enum IssuePriority { Question, Bug, FeatureRequest, HighPriority }
 
     [HttpGet("/software")]
     public async Task<ActionResult> GetSoftwareCatalog()

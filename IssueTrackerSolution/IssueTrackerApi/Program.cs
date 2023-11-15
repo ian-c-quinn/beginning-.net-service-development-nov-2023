@@ -1,3 +1,4 @@
+using IssueTrackerApi.Services;
 using Marten;
 
 var builder = WebApplication.CreateBuilder(args); // Kestrel Web Server
@@ -14,6 +15,14 @@ builder.Services.AddMarten(options =>
 {
     options.Connection(connectionString);
 }).UseLightweightSessions();
+builder.Services.AddScoped<IssuesCatalog>();
+
+var apiUrl = builder.Configuration.GetConnectionString("api") ?? throw new Exception("Need an API Url");
+builder.Services.AddHttpClient<ClockApiAdapter>(client =>
+{
+    client.BaseAddress = new Uri(apiUrl);
+
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
